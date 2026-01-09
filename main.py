@@ -2,10 +2,14 @@ import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from dotenv import load_dotenv
 import sys
 import time
 import random
 import os
+
+load_dotenv()
 
 # Initialize the undetected-chromedriver. It runs headless by default in recent versions
 driver = uc.Chrome(headless=False)
@@ -26,11 +30,34 @@ def human_like_typing(element, text):
     """
     for char in text:
         element.send_keys(char)
-        # Introduce a random delay between 0.05 and 0.2 seconds
+        # Introduce a random delay between 0.05 and 0.1 seconds
         time.sleep(random.uniform(0.05, 0.2))
 
-def rand_mult():
-    return random.uniform(0.7, 2)
+def rand_delay():
+    return 1.5 * random.uniform(0.7, 2)
+
+def move_nat(target):
+    size = target.size
+    click_x = int(size["width"] * random.uniform(0.3, 0.7))
+    click_y = int(size["height"] * random.uniform(0.3, 0.7))
+
+    # Move to element first
+    actions = ActionChains(driver)
+    actions.move_to_element_with_offset(target, 0, 0)  # top-left of element
+
+    # Gradually move to random click point
+    steps = 20
+    dx = click_x / steps
+    dy = click_y / steps
+
+    for i in range(steps):
+        actions.move_by_offset(dx, dy)
+        actions.pause(0.01 * random.uniform(0.7, 1.3))
+
+    # Click
+    # actions.click()
+    actions.perform()
+
 try:
     driver.get("https://rugplay.com")
     sign_in = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='sign in']")))
@@ -41,22 +68,30 @@ try:
     email_input = wait.until(
         EC.element_to_be_clickable((By.ID, "identifierId"))
     )
+    move_nat(email_input)
+    time.sleep(rand_delay())
     human_like_typing(email_input, sys.argv[1])  # Use a dedicated test account
 
     next_button = wait.until(EC.element_to_be_clickable((By.ID, "identifierNext")))
-    time.sleep(1.5*rand_mult())
+    time.sleep(rand_delay())
+    move_nat(next_button)
+    time.sleep(rand_delay())
     next_button.click()
-    time.sleep(1.5*rand_mult())
+    time.sleep(rand_delay())
     # Wait for the password field to appear and enter the password
     password_input = wait.until(
         EC.element_to_be_clickable((By.NAME, "Passwd"))
     )
+    move_nat(password_input)
+    time.sleep(rand_delay())
     human_like_typing(password_input, os.getenv("PASSWORD"))
 
     signin_button = driver.find_element(By.ID, "passwordNext")
-    time.sleep(1.5 * rand_mult())
+    time.sleep(rand_delay())
+    move_nat(signin_button)
+    time.sleep(rand_delay())
     signin_button.click()
-    time.sleep(1.5 * rand_mult())
+    time.sleep(rand_delay())
 
     while True:
         pass
