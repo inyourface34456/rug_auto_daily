@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import sys
 import time
 import random
+import os
 
 # Initialize the undetected-chromedriver. It runs headless by default in recent versions
 driver = uc.Chrome(headless=False)
@@ -28,6 +29,8 @@ def human_like_typing(element, text):
         # Introduce a random delay between 0.05 and 0.2 seconds
         time.sleep(random.uniform(0.05, 0.2))
 
+def rand_mult():
+    return random.uniform(0.7, 2)
 try:
     driver.get("https://rugplay.com")
     sign_in = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[normalize-space()='sign in']")))
@@ -41,19 +44,19 @@ try:
     human_like_typing(email_input, sys.argv[1])  # Use a dedicated test account
 
     next_button = wait.until(EC.element_to_be_clickable((By.ID, "identifierNext")))
-    time.sleep(1.5*random.uniform(1, 2))
+    time.sleep(1.5*rand_mult())
     next_button.click()
-    time.sleep(1.5*random.uniform(1, 2))
+    time.sleep(1.5*rand_mult())
     # Wait for the password field to appear and enter the password
     password_input = wait.until(
         EC.element_to_be_clickable((By.NAME, "Passwd"))
     )
-    human_like_typing(password_input, "REMOVED
+    human_like_typing(password_input, os.getenv("PASSWORD"))
 
     signin_button = driver.find_element(By.ID, "passwordNext")
-    time.sleep(1.5 * random.uniform(1, 2))
+    time.sleep(1.5 * rand_mult())
     signin_button.click()
-    time.sleep(1.5 * random.uniform(1, 2))
+    time.sleep(1.5 * rand_mult())
 
     while True:
         pass
