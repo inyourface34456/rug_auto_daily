@@ -93,6 +93,27 @@ try:
     signin_button.click()
     time.sleep(rand_delay())
 
+    print("claim daily")
+    claim_daily = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/button[1]")))
+    claim_daily.click()
+    print("enter portfolio page")
+    portfolio = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/ul[1]/li[6]/a[1]")))
+    portfolio.click()
+    print("open send dialoug")
+    open_send_dialoug = wait.until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]")))
+    open_send_dialoug.click()
+    print("click max button")
+    click_max_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='bits-c15']/div[2]/div[3]/div[1]/button[1]")))
+    click_max_button.click()
+    print("click and enter username")
+    uname_field = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='recipient']")))
+    # human_like_typing(uname_field, "10kboosterguy")
+    print("typing username")
+    uname_field.send_keys("10kboosterguy")
+    print("send money")
+    click_send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='bits-c15']/div[3]/button[2]")))
+    click_send_button.click()
+
     while True:
         pass
 
