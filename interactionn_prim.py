@@ -2,9 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils import *
-import sys
-import os
-from logger import Logger, Level
+from logger import Level
 
 def click_sign_in(driver, logger):
     wait = WebDriverWait(driver, 20)
@@ -17,7 +15,7 @@ def click_sign_in(driver, logger):
     google_sign_in = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='bits-c8']/div[2]/button[1]/span[1]")))
     google_sign_in.click()
 
-def sign_into_google(driver, logger):
+def sign_into_google(driver, email, passw, logger):
     wait = WebDriverWait(driver, 20)
     email_input = wait.until(
         EC.element_to_be_clickable((By.ID, "identifierId"))
@@ -27,7 +25,7 @@ def sign_into_google(driver, logger):
     logger.log(Level.INFO, "human sleep")
     time.sleep(rand_delay())
     logger.log(Level.INFO, "typing email")
-    human_like_typing(email_input, sys.argv[1])
+    human_like_typing(email_input, email)
 
     next_button = wait.until(EC.element_to_be_clickable((By.ID, "identifierNext")))
     time.sleep(rand_delay())
@@ -44,7 +42,7 @@ def sign_into_google(driver, logger):
     move_nat(driver, password_input)
     time.sleep(rand_delay())
     logger.log(Level.INFO, "typing password")
-    human_like_typing(password_input, os.getenv("PASSWORD"))
+    human_like_typing(password_input, passw)
 
     signin_button = driver.find_element(By.ID, "passwordNext")
     logger.log(Level.INFO, "moving natruly to sign in")
