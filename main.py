@@ -10,11 +10,11 @@ import click
 import os
 
 @click.command()
-@click.option("--email", reqrequired=False, help="password for the email")
+@click.option("--email", help="password for the email")
 @click.option("--target-acc", required=False, help="what account to send the money to")
 @click.option("--from-env", required=False, is_flag=True, default=True, help="use environment variables",
               cls=MutuallyExclusiveOption,
-              mutually_exclusive=["email", "password", "target_acc"]
+              mutually_exclusive=["password", "target_acc"]
 )
 def get_args(email, password, from_env, target_acc):
     return Args(email, password, from_env, target_acc)
