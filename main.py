@@ -29,8 +29,8 @@ driver = uc.Chrome(headless=False)
 
 try:
     # args = get_args()
-    password = sys.argv[1]
-    email = sys.argv[2]
+    password = sys.argv[2]
+    email = sys.argv[1]
     target_acc = sys.argv[3]
 
     logger = Logger(True)
