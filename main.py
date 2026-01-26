@@ -1,34 +1,25 @@
-from email.policy import default
-
 import undetected_chromedriver as uc
 from dotenv import load_dotenv
 from interactionn_prim import *
 from logger import Logger
-# from runargs import Args
-# from mut_elu import MutuallyExclusiveOption
-# import click
-# import os
 import sys
+import json
+import random
 
-# @click.command()
-# @click.option("--email", help="password for the email")
-# @click.option("--target-acc", required=False, help="what account to send the money to")
-# @click.option("--password", required=False, help="password")
-# @click.option("--from-env", required=False, is_flag=True, default=True, help="use environment variables",
-#               cls=MutuallyExclusiveOption,
-#               mutually_exclusive=["password", "target_acc"]
-# )
-# def get_args(email, password, from_env, target_acc):
-#     print("line 21")
-#     return Args(email, password, from_env, target_acc)
+user_agents = json.loads(open('index.json').read())
+user_agent = random.choice(user_agents)
+
+chrome_options = uc.ChromeOptions()
+chrome_options.add_argument(f"--user-agent={user_agent}")
+
+width = random.randint(1024, 1920)
+height = random.randint(768, 1080)
+chrome_options.add_argument(f"--window-size={width},{height}")
 
 load_dotenv()
-driver = uc.Chrome(headless=False)
-
-# use the bookmarklet in the readme to get xpath, and c to copy
+driver = uc.Chrome(headless=False, options=chrome_options)
 
 try:
-    # args = get_args()
     password = sys.argv[2]
     email = sys.argv[1]
     target_acc = sys.argv[3]
